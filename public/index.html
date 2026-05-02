@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Tourism AI</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <span>Smart Tourism AI — Geolocation & Crowd Monitoring</span>
+    <button id="darkModeToggle" style="margin-left:20px;">🌙 Dark Mode</button>
+  </header>
+
+  <!-- Map -->
+  <div id="map"></div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <section>
+      <h3>Register</h3>
+      <input id="reg_username" placeholder="Username">
+      <input id="reg_password" type="password" placeholder="Password">
+      <button onclick="register()">Register</button>
+    </section>
+
+    <section>
+      <h3>Login</h3>
+      <input id="username" placeholder="Username">
+      <input id="password" type="password" placeholder="Password">
+      <button onclick="login()">Login</button>
+    </section>
+
+    <section>
+      <h3>Marker Tools</h3>
+      <div class="g-recaptcha" data-sitekey="YOUR_RECAPTCHA_SITE_KEY"></div>
+      <button onclick="enableMarker()">Add Danger Sign</button>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

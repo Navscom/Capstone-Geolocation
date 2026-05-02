@@ -1,0 +1,162 @@
+/* General page styling */
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  background: #eef2f7;
+  color: #333;
+}
+
+/* Header bar */
+header {
+  background: linear-gradient(90deg, #007bff, #00c6ff);
+  color: #fff;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 1.2em;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+header span {
+  text-align: right;
+}
+
+/* Map container */
+#map {
+  height: 65vh;
+  width: 100%;
+  border-bottom: 4px solid #007bff;
+}
+
+/* Control panel */
+.controls {
+  padding: 20px;
+  background: #fff;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
+}
+
+.controls section {
+  margin: 10px;
+  flex: 1;
+  min-width: 250px;
+  background: #f9fbfd;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.controls h3 {
+  margin-top: 0;
+  color: #007bff;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 5px;
+}
+
+/* Inputs and buttons */
+input {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+button {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  font-weight: bold;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+/* Captcha box */
+.g-recaptcha {
+  margin: 10px 0;
+}
+
+/* Popup marker styling */
+.leaflet-popup-content {
+  font-weight: bold;
+  color: #d9534f; /* red for danger */
+}
+
+
+#map {
+  height: 70vh;   /* 70% of viewport height */
+  width: 100%;
+  border-bottom: 3px solid #007bff;
+}
+
+header {
+  background: linear-gradient(90deg, #007bff, #00c6ff);
+  color: #fff;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 1.2em;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+header span {
+  text-align: right;
+}
+
+/* Dark mode styles */
+body.dark-mode {
+  background: #121212;
+  color: #e0e0e0;
+}
+
+body.dark-mode header {
+  background: linear-gradient(90deg, #222, #444);
+  color: #f1f1f1;
+}
+
+body.dark-mode .controls {
+  background: #1e1e1e;
+  box-shadow: 0 -2px 6px rgba(255,255,255,0.1);
+}
+
+body.dark-mode .controls section {
+  background: #2a2a2a;
+  border: 1px solid #444;
+}
+
+body.dark-mode .controls h3 {
+  color: #00c6ff;
+  border-bottom: 2px solid #00c6ff;
+}
+
+body.dark-mode input {
+  background: #333;
+  color: #f1f1f1;
+  border: 1px solid #555;
+}
+
+body.dark-mode button {
+  background: #00c6ff;
+  color: #000;
+}
+
+body.dark-mode button:hover {
+  background: #0099cc;
+}
+
+body.dark-mode #map {
+  border-bottom: 4px solid #00c6ff;
+}
