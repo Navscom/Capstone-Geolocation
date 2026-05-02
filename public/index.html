@@ -1,48 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smart Tourism AI</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Tourism Management System</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Font Awesome for Stylish Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
-
 <body>
-  <!-- Header -->
-  <header>
-    <span>Smart Tourism AI — Geolocation & Crowd Monitoring</span>
-    <button id="darkModeToggle" style="margin-left:20px;">🌙 Dark Mode</button>
-  </header>
 
-  <!-- Map -->
-  <div id="map"></div>
+<header class="main-header">
+    <div class="header-left">
+        <span class="system-title">Smart Tourism AI — Geolocation & Crowd Monitoring</span>
+    </div>
+    
+    <div class="header-right-actions">
+        <div class="theme-control">
+            <span id="theme-icon"><i class="fas fa-sun"></i></span>
+            <label class="switch">
+                <input type="checkbox" id="theme-switch">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <button class="pill-btn header-login" id="authBtn">Login</button>
+    </div>
+</header>
 
-  <!-- Controls -->
-  <div class="controls">
-    <section>
-      <h3>Register</h3>
-      <input id="reg_username" placeholder="Username">
-      <input id="reg_password" type="password" placeholder="Password">
-      <button onclick="register()">Register</button>
-    </section>
+<div class="app-layout">
+    <aside class="menu-panel">
+        <h3 class="menu-title">MENU</h3>
+        <div class="menu-content">
+            <div class="menu-item"><i class="fas fa-map-marked-alt"></i> Tourist Guidance</div>
+            <div class="menu-item"><i class="fas fa-users-rays"></i> Crowd Analysis</div>
+            <div class="menu-item"><i class="fas fa-triangle-exclamation"></i> Hazard Alerts</div>
+        </div>
+    </aside>
+    
+    <main class="map-container">
+        <div id="map"></div>
+    </main>
+</div>
 
-    <section>
-      <h3>Login</h3>
-      <input id="username" placeholder="Username">
-      <input id="password" type="password" placeholder="Password">
-      <button onclick="login()">Login</button>
-    </section>
+<footer class="ai-footer">
+    <div class="ai-prompt-container">
+        <span class="ai-label">AI ASSISTANT:</span>
+        <input type="text" placeholder="Ask AI..." id="aiInput">
+    </div>
+</footer>
 
-    <section>
-      <h3>Marker Tools</h3>
-      <div class="g-recaptcha" data-sitekey="YOUR_RECAPTCHA_SITE_KEY"></div>
-      <button onclick="enableMarker()">Add Danger Sign</button>
-    </section>
-  </div>
+<div id="loginModal" class="modal-overlay">
+    <div class="modal-card">
+        <h2 id="modalTitle">Login</h2>
+        <div class="input-group">
+            <input type="text" class="pill-input" id="userIn" placeholder="Username">
+            <input type="password" class="pill-input" id="passIn" placeholder="Password">
+            <input type="password" class="pill-input" id="confirmPass" placeholder="Confirm Password" style="display:none;">
+        </div>
+        <div class="captcha-wrapper">
+            <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
+        </div>
+        <button class="pill-btn primary-action" id="submitAuth">LOGIN</button>
+        <div class="modal-footer-links">
+            <p id="toggleMsg">Don't have an account? <a href="javascript:void(0)" onclick="toggleAuthMode()">Register</a></p>
+            <button class="pill-btn secondary-action" onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+</div>
 
-  <script src="app.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

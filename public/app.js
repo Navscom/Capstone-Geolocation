@@ -1,99 +1,70 @@
-let map = L.map('map').setView([14.586, 121.061], 13);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '© OpenStreetMap contributors'
-}).addTo(map);
+const map = L.map('map', { 
+    zoomControl: true, 
+    attributionControl: false 
+}).setView([14.5794, 121.0359], 13);
 
-let jwtToken = null;
+L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png').addTo(map);
+map.zoomControl.setPosition('topleft');
 
-// 📝 Register
-async function register() {
-  const res = await fetch('register.php', {
-    method: 'POST',
-    body: new URLSearchParams({
-      username: document.getElementById('reg_username').value,
-      password: document.getElementById('reg_password').value
-    })
-  });
-  const data = await res.json();
-  alert(data.success ? "Registered successfully!" : "Error: " + data.error);
-}
+// Hazard Example Data
+const hazards = [
+    { coords: [14.5794, 121.0359], type: "Crowd", color: "#ff4444", msg: "<strong>High Crowd Density</strong><br>Caution: Heavy foot traffic detected." },
+    { coords: [14.5850, 121.0500], type: "Construction", color: "#ffbb33", msg: "<strong>Construction Zone</strong><br>Road work in progress. Use alternative routes." },
+    { coords: [14.5700, 121.0400], type: "Wildlife", color: "#00c851", msg: "<strong>Wildlife Protection Area</strong><br>Please follow park guidelines." }
+];
 
-// 🔑 Login
-async function login() {
-  const res = await fetch('login.php', {
-    method: 'POST',
-    body: new URLSearchParams({
-      username: document.getElementById('username').value,
-      password: document.getElementById('password').value
-    })
-  });
-  const data = await res.json();
-  if (data.token) {
-    jwtToken = data.token;
-    alert("Login successful!");
-  } else {
-    alert("Login failed");
-  }
-}
+hazards.forEach(h => {
+    let zone = L.circle(h.coords, {
+        color: h.color,
+        fillColor: h.color,
+        fillOpacity: 0.35,
+        weight: 2,
+        radius: 350
+    }).addTo(map);
 
-// 📍 Enable marker placement
-function enableMarker() {
-  if (!jwtToken) {
-    alert("You must log in first!");
-    return;
-  }
-  map.on('click', async function(e) {
-    const captchaToken = grecaptcha.getResponse();
-    if (!captchaToken) {
-      alert("Please complete captcha!");
-      return;
-    }
-
-    const markerData = {
-      latitude: e.latlng.lat,
-      longitude: e.latlng.lng,
-      marker_type: "danger",
-      captcha_token: captchaToken
-    };
-
-    const res = await fetch('add_marker.php', {
-      method: 'POST',
-      headers: {
-        "Authorization": "Bearer " + jwtToken,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(markerData)
+    // Dynamic Hover Styling
+    zone.on('mouseover', function (e) {
+        this.setStyle({
+            fillOpacity: 0.6,
+            weight: 4,
+            radius: 380 // Slight expansion effect
+        });
+        
+        L.popup({ closeButton: false, offset: [0, -10] })
+            .setLatLng(e.latlng)
+            .setContent(h.msg)
+            .openOn(map);
     });
 
-    const data = await res.json();
-    if (data.success) {
-      L.marker([e.latlng.lat, e.latlng.lng]).addTo(map)
-        .bindPopup("Danger sign placed!");
-    } else {
-      alert("Error: " + data.error);
-    }
-  });
-}
-
-// 🌍 Load existing markers
-async function loadMarkers() {
-  const res = await fetch('get_markers.php');
-  const markers = await res.json();
-  markers.forEach(m => {
-    L.marker([m.latitude, m.longitude]).addTo(map)
-      .bindPopup(m.marker_type.toUpperCase());
-  });
-}
-
-// 🌙 Dark Mode Toggle
-document.getElementById('darkModeToggle').addEventListener('click', () => {
-  document.body.classList.toggle('dark-mode');
-  const btn = document.getElementById('darkModeToggle');
-  if (document.body.classList.contains('dark-mode')) {
-    btn.textContent = "☀️ Light Mode";
-  } else {
-    btn.textContent = "🌙 Dark Mode";
-  }
+    zone.on('mouseout', function (e) {
+        this.setStyle({
+            fillOpacity: 0.35,
+            weight: 2,
+            radius: 350
+        });
+        map.closePopup();
+    });
 });
 
-loadMarkers();
+// UI Logic
+let isLoginMode = true;
+const themeSwitch = document.getElementById('theme-switch');
+const themeIcon = document.getElementById('theme-icon');
+
+themeSwitch.onchange = () => {
+    document.body.classList.toggle('dark-mode', themeSwitch.checked);
+    themeIcon.innerHTML = themeSwitch.checked 
+        ? '<i class="fas fa-moon"></i>' 
+        : '<i class="fas fa-sun"></i>';
+};
+
+const modal = document.getElementById('loginModal');
+document.getElementById('authBtn').onclick = () => { modal.style.display = 'flex'; };
+function closeModal() { modal.style.display = 'none'; }
+
+function toggleAuthMode() {
+    isLoginMode = !isLoginMode;
+    document.getElementById('modalTitle').innerText = isLoginMode ? "Login" : "Register";
+    document.getElementById('submitAuth').innerText = isLoginMode ? "LOGIN" : "CREATE ACCOUNT";
+    document.getElementById('confirmPass').style.display = isLoginMode ? "none" : "block";
+}

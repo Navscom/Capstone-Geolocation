@@ -15,14 +15,21 @@ if (!$userId) {
 
 $data = json_decode(file_get_contents("php://input"), true);
 
+// Integrity Check: Capcha is mandatory
 if (!verifyCaptcha($data['captcha_token'])) {
     http_response_code(400);
     echo json_encode(["error" => "Captcha failed"]);
     exit;
 }
 
-$stmt = $pdo->prepare("INSERT INTO markers (latitude, longitude, marker_type, created_by) VALUES (?, ?, ?, ?)");
-$stmt->execute([$data['latitude'], $data['longitude'], $data['marker_type'], $userId]);
+// Prepare the statement with new data fields (danger, manual entry)
+$stmt = $pdo->prepare("INSERT INTO markers (latitude, longitude, marker_type, risk_level, created_by) VALUES (?, ?, 'danger', ?, ?)");
+$stmt->execute([
+    $data['latitude'], 
+    $data['longitude'], 
+    $data['risk_level'], // New data
+    $userId
+]);
 
 echo json_encode(["success" => true]);
 ?>

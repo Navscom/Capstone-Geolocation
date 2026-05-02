@@ -1,25 +1,10 @@
-<?php
-require_once __DIR__ . '/../src/db.php';
-require_once __DIR__ . '/../src/jwt.php';
-// rest of login code...
-
-
-<?php
-require 'jwt.php';
-require 'db.php';
-
-$username = $_POST['username'];
-$password = $_POST['password'];
-
 $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
-$stmt->execute([$username]);
-$user = $stmt->fetch();
+$stmt->execute([$u]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if ($user && password_verify($password, $user['password_hash'])) {
-    $token = createJWT($user['id']);
-    echo json_encode(["token" => $token]);
+// This matches the password_hash column we just updated
+if ($user && password_verify($p, $user['password_hash'])) {
+    echo json_encode(["status" => "success", "username" => $user['username']]);
 } else {
-    http_response_code(401);
-    echo json_encode(["error" => "Invalid credentials"]);
+    echo json_encode(["status" => "error", "message" => "Incorrect name or password"]);
 }
-?>

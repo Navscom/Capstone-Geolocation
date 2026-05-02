@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Smart Tourism AI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-page">
+    <div class="auth-card">
+        <h2>System Login</h2>
+        <input id="username" placeholder="Username" required>
+        <input id="password" type="password" placeholder="Password" required>
+        
+        <!-- Login button calls your existing logic in app.js -->
+        <button onclick="login()">Login</button>
+
+        <div style="margin-top: 20px; border-top: 1px solid #ddd; padding-top: 15px;">
+            <p>Don't have an account yet?</p>
+            <a href="register.html" class="action-btn" style="background: #6c757d; display: block; text-decoration: none; color: white;">Register Here</a>
+        </div>
+        <br>
+        <a href="index.html" style="font-size: 0.9rem; color: #777;">← Back to Map</a>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
